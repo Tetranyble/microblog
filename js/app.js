@@ -12,14 +12,16 @@
         'timestamp': 1400100000000
       }
     ];
-    return $scope.create = function(post) {
+    $scope.create = function(post) {
       $scope.posts.push({
-        'user': 'U1',
+        'user': this.userName,
         'content': post.content,
         'timestamp': Date.now()
       });
       return post.content = '';
     };
+    $scope.signedOut = false;
+    return $scope.userName = '';
   });
 
 }).call(this);

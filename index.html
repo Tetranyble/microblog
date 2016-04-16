@@ -9,11 +9,11 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <meta name="google-signin-client_id" content="809299643186-auknsagefsp6ep7jvm411ta6bmvqiooa.apps.googleusercontent.com">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <style>
             body {
-                padding-top: 50px;
+                padding-top: 100px;
                 padding-bottom: 20px;
             }
         </style>
@@ -21,8 +21,14 @@
         <link rel="stylesheet" href="css/main.css">
 
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="js/app.js"></script>
     </head>
-    <body ng-controller="MainCtrl">
+    <body ng-controller="MainCtrl" id="body">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -38,6 +44,39 @@
           <a class="navbar-brand" href="#">Project name</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right" ng-show="!signedOut">
+            <li><a href="#" onclick="signOut();">Sign out</a></li>
+          </ul>
+          <div class="g-signin2 navbar-form navbar-right" data-onsuccess="onSignIn"></div>
+          <script>
+          jQuery(function() {
+            var scope = angular.element(document.getElementById("body")).scope();
+            try{
+              scope.userName = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getName();
+              scope.signedOut = false;
+            } catch(err) {
+              scope.signedOut = true;
+            }
+            scope.$apply();
+          });
+
+          function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            var scope = angular.element(document.getElementById("body")).scope();
+            scope.userName = profile.getName();
+            scope.signedOut = false;
+            scope.$apply();
+          }
+
+          function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+              var scope = angular.element(document.getElementById("body")).scope();
+              scope.signedOut = true;
+              scope.$apply();
+            });
+          }
+          </script>
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
@@ -46,11 +85,14 @@
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
-          <h3>Post something</h3>
           <div>
-            <form novalidate class="simple-form">
-              Content: <textarea ng-model="post.content" ></textarea><br />
-              <input type="submit" ng-click="create(post)" value="Save" />
+            <form name="form" novalidate class="simple-form">
+              <div class="form-group">
+                <h4 ng-show="!signedOut">Posting as <b>{{userName}}</b></h4>
+                Content: <textarea name="content" ng-model="post.content" class="form-control" required></textarea><br />
+                <input type="submit" class="btn btn-primary" ng-click="create(post)" ng-disabled="signedOut || form.content.$error.required"
+                  value="Post Message" />
+              </div>
             </form>
           </div>
         </div>
@@ -73,11 +115,6 @@
       <footer>
         <p>&copy; Company 2016</p>
       </footer>
-    </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-        <script src="js/vendor/bootstrap.min.js"></script>
-
-        <script src="js/app.js"></script>
+    </div>
     </body>
 </html>
