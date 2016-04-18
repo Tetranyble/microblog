@@ -1,22 +1,27 @@
+body {
+  padding-top: 100px;
+  padding-bottom: 20px;
+}
 
+section#posts article {
+  padding: 15px 0;
+  border-bottom: 1px solid #E1E1E1;
+}
 
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
+section#posts article span.user {
+  font-weight: bold;
+  font-size: 16px;
+}
 
+section#posts article span.time {
+  font-size: 12px;
+  color: #636363;
+  margin-left: 5px;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+section#posts article p {
+  margin: 5px 50px 0 10px;
+  padding: 0;
+  text-align: justify;
+  line-height: 1.5;
+}

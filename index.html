@@ -11,12 +11,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-signin-client_id" content="809299643186-auknsagefsp6ep7jvm411ta6bmvqiooa.apps.googleusercontent.com">
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        <style>
-            body {
-                padding-top: 100px;
-                padding-bottom: 20px;
-            }
-        </style>
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/main.css">
 
@@ -77,12 +71,11 @@
             });
           }
           </script>
-        </div><!--/.navbar-collapse -->
+        </div>
       </div>
     </nav>
 
     <div class="container">
-      <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
           <div>
@@ -103,8 +96,8 @@
           <section id="posts">
             <article ng-repeat="post in posts">
               <span class="user">{{post.p_user}}</span>
-              <div class="content">{{post.content}}</div>
-              <span class="user">{{post.timestamp | date:'short'}}</span>
+              <span class="time">{{post.timestamp | date:'short'}}</span>
+              <p class="content">{{post.content}}</p>
             </article>
           </section>
         </div>
