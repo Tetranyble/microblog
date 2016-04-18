@@ -6,12 +6,12 @@
 
   app.controller('MainCtrl', function($scope, $http) {
     $scope.posts = [{}];
-    $http.get('someUrl.html').then(function(response) {
+    $http.get('/posts').then(function(response) {
       return $scope.posts = response.data;
     });
     $scope.create = function(post) {
-      return $http.post('someUrl.html', JSON.stringify({
-        'user': this.userName,
+      return $http.post('/post', JSON.stringify({
+        'p_user': this.userName,
         'content': post.content
       })).then(function(response) {
         $scope.posts.push(response.data);
