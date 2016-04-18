@@ -4,21 +4,19 @@
 
   app = angular.module('main', []);
 
-  app.controller('MainCtrl', function($scope) {
-    $scope.posts = [
-      {
-        'user': 'U1',
-        'content': 'loloolol',
-        'timestamp': 1400100000000
-      }
-    ];
+  app.controller('MainCtrl', function($scope, $http) {
+    $scope.posts = [{}];
+    $http.get('someUrl.html').then(function(response) {
+      return $scope.posts = response.data;
+    });
     $scope.create = function(post) {
-      $scope.posts.push({
+      return $http.post('someUrl.html', JSON.stringify({
         'user': this.userName,
-        'content': post.content,
-        'timestamp': Date.now()
+        'content': post.content
+      })).then(function(response) {
+        $scope.posts.push(response.data);
+        return post.content = '';
       });
-      return post.content = '';
     };
     $scope.signedOut = false;
     return $scope.userName = '';
